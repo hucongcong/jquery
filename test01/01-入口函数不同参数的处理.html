@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script src="../jquery-3.2.1.js"></script>
+<script>
+
+  //如果参数是空，或者是空值，那么得到的是一个空的jQuery对象
+  /*console.log($());
+   console.log($(''));
+   console.log($(0));
+   console.log($(NaN));
+   console.log($(null));
+   console.log($(undefined));
+   console.log($(false));*/
+
+  //如果参数是字符串
+  //1. 如果是普通字符串，会当成选择器进行处理。
+  //2. 如果字符串是标签，那么会创建元素
+  /*console.log($("script"));
+   console.log($("<div>"));*/
+
+
+  //如果参数是一个对象
+  //1. 把这个DOM对象存储到jQuery对象中，并且返回。
+  //2. 如果参数是一组DOM对象，把这组DOM对象存储到jQuery对象中，并且返回
+  //3. 如果参数是一个jQuery对象。把jQuery对象中数据抽取出来，添加到新的实例中
+
+  //如果参数是一个函数，那么就是入口函数。
+</script>
+</body>
+</html>

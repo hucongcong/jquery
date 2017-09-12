@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<script>
+
+  //模拟jQuery的init函数
+  //1. 如果参数转换为布尔类型是false，那么直接返回返回新实例
+  //2. 如果参数是函数，那么是入口函数
+  //3. 如果参数是字符串， 1. 如果是标签，创建  2. 否则是选择器
+  //4. 如果是对象，把对象放入对象中，返回
+  //5. 如果是伪数组，把伪数组中的内容添加到jQuery对象中
+  //6. 如果是其他数据，xxxx
+  function init(selector) {
+    //如果参数转换为false，那么直接返回
+    if (!selector) {
+      return this;
+    }
+
+    if (typeof selector === "string") {
+      //如果以<开始，>结束，并且长度大于等于3，那么说明是html格式的字符串
+      if (selector[0] === "<"
+          && selector[selector.length - 1] === ">"
+          && selector.length >= 3) {
+
+      }
+    }
+
+    if (typeof selector === "function") {
+      console.log("入口函数");
+      return this;
+    }
+
+
+  }
+
+</script>
+
+</body>
+</html>
