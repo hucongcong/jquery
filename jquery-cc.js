@@ -13,17 +13,17 @@
   var jQuery = function(){
     //使用工厂函数创建jQuery函数
     return new jQuery.fn.init();
-  }
+  };
   
   //替换jQuery原型属性,起一个别名jQuery.fn,方便使用
   jQuery.fn = jQuery.prototype = {
     constructor:"jQuery",//修改构造器
-  }
+  };
 
-  ////jquery内部隐藏的构造函数
+  //jquery内部隐藏的构造函数（入口函数）
   var init = jQuery.fn.init = function(){
 
-  }
+  };
   //构造函数的原型与工厂函数的原型一致。
   init.prototype = jQuery.fn;
 
