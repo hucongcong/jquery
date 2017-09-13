@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+
+  //IE9和现代浏览器新增了一个DOM构建完毕事件。DOMContentLoaded
+  //文档被加载和解析，并且DOM被完全构造，但链接的资源（例如图像，样式表和子帧）可能尚未被加载。
+  //  var div = document.querySelector("div");
+  //  console.log(div);
+  //  document.addEventListener("DOMContentLoaded", function () {
+  //    var div = document.querySelector("div");
+  //    console.log(div);
+  //  })
+
+
+  //兼容性处理：
+  // 在IE8中，不支持DOMContentLoaded事件，
+  // 但是支持onreadystatechange事件，
+  // 如果构造完毕了，对应的readState为complete
+  document.onreadystatechange = function () {
+    if (document.readyState === "complete") {
+      var div = document.getElementsByTagName("div")[0];
+      console.log(div);
+    }
+  };
+
+</script>
+
+
+<div>111</div>
+<p>222</p>
+</body>
+</html>

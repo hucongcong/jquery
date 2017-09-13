@@ -7,7 +7,13 @@
   factory(global);
 
 })(window, function(window){
-  //jQuery主体代码
+  //缓存变量,下次使用效率更高，并且可以进行压缩。
+  var arr = [];
+  var document = window.document;
+  var slice = arr.slice;
+  var concat = arr.concat;
+  var push = arr.push;
+
   
   //创建jQuery函数
   var jQuery = function (selector) {
@@ -18,6 +24,25 @@
   //替换jQuery原型属性,起一个别名jQuery.fn,方便使用
   jQuery.fn = jQuery.prototype = {
     constructor:"jQuery",//修改构造器
+    ready: function (fn) {
+      //如果DOM已经构建完毕了，就没必要注册事件了，直接调用即可。
+      if (document.readyState === "complete") {
+        fn();
+        return this;
+      }
+      //现代浏览器
+      if ("addEventListener" in document) {
+        document.addEventListener("DOMContentLoaded", fn);
+      } else {
+        //IE8浏览器
+        document.attachEvent("onreadystatechange", function () {
+          if (document.readyState === "complete") {
+            fn();
+          }
+        });
+      }
+      return this;
+    }
   };
 
   //jquery内部隐藏的构造函数（入口函数）
@@ -28,7 +53,7 @@
       return this;
     }
 
-    //处理参数是字符串的情况
+    //处理参数是字符串的情况 $("<div></div>") $(".box")
     if (typeof selector === "string") {
       //如果是标签
       if (selector[0] === "<"
@@ -36,13 +61,59 @@
         && selector.length >= 3) {
         var tempDiv = document.createElement("div");
         tempDiv.innerHTML = selector;
-        Array.prototype.push.apply(this, tempDiv.children);
+        push.apply(this, tempDiv.children);
       } else {
+        //如果不是标签，当成选择器使用
         var tempResult = document.querySelectorAll(selector);
-        Array.prototype.push.apply(this, tempResult);
+        push.apply(this, tempResult);
       }
+      return this;
     }
 
+
+    //处理参数：如果是数组或者类数组
+    if (jQuery.isArrayLike(selector)) {
+      push.apply(this, selector);
+      return this;
+    }
+
+    //参数是函数
+    if (typeof selector === "function") {
+      this.ready(selector);
+    }
+
+    //如果是其他
+    this[0] = selector;
+    this.length = 1;
+    return this;
+
+  };
+
+  //给jQuery添加的静态方法，判断对象是否是一个类数组
+  jQuery.isArrayLike = function (obj) {
+    //如果obj是假值，或者obj没有length属性，length为false,否则length为obj.length
+    var length = !!obj && "length" in obj && obj.length;
+    //如果obj是函数类型 或者window类型，直接返回false
+    //因为函数和window都是object类型，并且他们都有length属性。
+    if (typeof obj === "function" || obj === window) {
+      return false;
+    }
+
+    //如果是数组，返回true
+    if (obj instanceof Array) {
+      return true;
+    }
+
+    //如果有长度，且长度为0，返回true
+    if (length === 0) {
+      return true;
+    }
+
+    //如果有长度，且长度>0,那么 length-1对应的下标必须存在。
+    if (typeof length === "number" && length >= 0 && (length - 1) in obj) {
+      return true;
+    }
+    return false;
   };
   //构造函数的原型与工厂函数的原型一致。
   init.prototype = jQuery.fn;

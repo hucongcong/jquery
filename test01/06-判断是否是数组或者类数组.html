@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+
+  //判断一个对象是否是类数组
+  function isArrayLike(obj) {
+    //如果obj是假值，或者obj没有length属性，length为false,否则length为obj.length
+    var length = !!obj && "length" in obj && obj.length;
+    //如果obj是函数类型 或者window类型，直接返回false
+    //因为函数和window都是object类型，并且他们都有length属性。
+    if (typeof obj === "function" || obj === window) {
+      return false;
+    }
+
+    //如果是数组，返回true
+    if (obj instanceof Array) {
+      return true;
+    }
+
+    //如果有长度，且长度为0，返回true
+    if (length === 0) {
+      return true;
+    }
+
+    //如果有长度，且长度>0,那么 length-1对应的下标必须存在。
+    if (typeof length === "number" && length >= 0 && (length - 1) in obj) {
+      return true;
+    }
+    return false;
+  }
+
+  console.log(isArrayLike({}));
+  console.log(isArrayLike({length: 0}));
+  console.log(isArrayLike([]));
+  console.log(isArrayLike({length: 1, 0: 11}));
+  console.log(isArrayLike(document.querySelectorAll("body")));
+  console.log(isArrayLike(function () {
+  }));
+  console.log(isArrayLike(null));
+  console.log(isArrayLike(window));
+</script>
+</body>
+</html>

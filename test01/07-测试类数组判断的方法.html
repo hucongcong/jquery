@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<script src="../jquery-cc.js"></script>
+<script>
+  console.log($.isArrayLike({}));
+  console.log($.isArrayLike({length: 0}));
+  console.log($.isArrayLike([]));
+  console.log($.isArrayLike({length: 1, 0: 11}));
+  console.log($.isArrayLike(document.querySelectorAll("body")));
+  console.log($.isArrayLike(function () {
+  }));
+  console.log($.isArrayLike(null));
+  console.log($.isArrayLike(window));
+
+</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+
+  function ready(fn) {
+    //如果DOM已经构建完毕了，就没必要注册事件了，直接调用即可。
+    if (document.readyState === "complete") {
+      fn();
+      return;
+    }
+    //现代浏览器
+    if ("addEventListener" in document) {
+      document.addEventListener("DOMContentLoaded", fn);
+    } else {
+      //IE8浏览器
+      document.attachEvent("onreadystatechange", function () {
+        if (document.readyState === "complete") {
+          fn();
+        }
+      });
+    }
+  }
+
+  ready(function () {
+    var box = document.getElementById("box");
+    console.log(box);
+  });
+
+</script>
+<div id="box"></div>
+</body>
+</html>
