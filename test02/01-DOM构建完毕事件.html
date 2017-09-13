@@ -20,9 +20,12 @@
   //兼容性处理：
   // 在IE8中，不支持DOMContentLoaded事件，
   // 但是支持onreadystatechange事件，
-  // 如果构造完毕了，对应的readState为complete
+  // document.readyState有三个值
+  //loading :仍然在加载
+  //interactive:文档已经完成加载，文档已被解析，但是图像等资源仍在加载。
+  //complete:所有资源都已经加载完毕。
   document.onreadystatechange = function () {
-    if (document.readyState === "complete") {
+    if (document.readyState === "interactive") {
       var div = document.getElementsByTagName("div")[0];
       console.log(div);
     }

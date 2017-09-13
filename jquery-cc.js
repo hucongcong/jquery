@@ -2,16 +2,16 @@
 //第一个参数：global, 在浏览器中运行时，传递的是window
 //第二个参数：factory，这个函数返回一个jQuery工厂函数
 //在jQuery1.7版本之前，jQuery不支持模块化，只需要一个global参数即可，第二个参数是为了支持模块化而设计的。
-(function(global, factory){
+(function (global, factory) {
 
   factory(global);
 
-})(window, function(window){
+})(window, function (window) {
   //缓存变量,下次使用效率更高，并且可以进行压缩。
+  var version = "1.0.0";
   var arr = [];
   var document = window.document;
   var slice = arr.slice;
-  var concat = arr.concat;
   var push = arr.push;
 
   
@@ -23,23 +23,44 @@
   
   //替换jQuery原型属性,起一个别名jQuery.fn,方便使用
   jQuery.fn = jQuery.prototype = {
-    constructor:"jQuery",//修改构造器
+    constructor: "jQuery",//修改构造器
+    jquery: version,//jquery版本
+    length: 0,//默认长度
+    toArray: function () {
+      //将jQuery对象转换成数组
+      return slice.call(this);
+    },
+    get: function (index) {
+      //如果num传了空，返回所有的数据
+      if (index == null) {
+        return this.toArray();
+      }
+      //如果是负数，倒过来取，否则顺序取
+      return index < 0 ? this[index + this.length] : this[index];
+    },
+    slice: function (start, end) {
+      //对jQuery对象进行截取，返回jQuery对象
+      var tempArr = slice.call(this, start, end);
+      return $(tempArr);
+    },
+    eq: function (index) {
+      return $(this.get(index))
+    },
+    first: function () {
+      return this.eq(0);
+    },
+    last: function () {
+      return this.eq(this.length - 1);
+    },
+    push: push,
+    sort: arr.sort,
+    splice: arr.splice,
     ready: function (fn) {
       //如果DOM已经构建完毕了，就没必要注册事件了，直接调用即可。
       if (document.readyState === "complete") {
         fn();
-        return this;
-      }
-      //现代浏览器
-      if ("addEventListener" in document) {
-        document.addEventListener("DOMContentLoaded", fn);
       } else {
-        //IE8浏览器
-        document.attachEvent("onreadystatechange", function () {
-          if (document.readyState === "complete") {
-            fn();
-          }
-        });
+        document.addEventListener("DOMContentLoaded", fn);
       }
       return this;
     }
