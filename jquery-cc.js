@@ -10,9 +10,9 @@
   //jQuery主体代码
   
   //创建jQuery函数
-  var jQuery = function(){
+  var jQuery = function (selector) {
     //使用工厂函数创建jQuery函数
-    return new jQuery.fn.init();
+    return new jQuery.fn.init(selector);
   };
   
   //替换jQuery原型属性,起一个别名jQuery.fn,方便使用
@@ -21,7 +21,27 @@
   };
 
   //jquery内部隐藏的构造函数（入口函数）
-  var init = jQuery.fn.init = function(){
+  var init = jQuery.fn.init = function (selector) {
+
+    //处理假值的情况。$() $('') $(false) $(null) $(undefined) $(NaN) $(0)
+    if (!selector) {
+      return this;
+    }
+
+    //处理参数是字符串的情况
+    if (typeof selector === "string") {
+      //如果是标签
+      if (selector[0] === "<"
+        && selector[selector.length - 1] === ">"
+        && selector.length >= 3) {
+        var tempDiv = document.createElement("div");
+        tempDiv.innerHTML = selector;
+        Array.prototype.push.apply(this, tempDiv.children);
+      } else {
+        var tempResult = document.querySelectorAll(selector);
+        Array.prototype.push.apply(this, tempResult);
+      }
+    }
 
   };
   //构造函数的原型与工厂函数的原型一致。

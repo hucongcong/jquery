@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+
+  function init(selector) {
+    //处理假值的情况。$() $('') $(false) $(null) $(undefined) $(NaN) $(0)
+    if (!selector) {
+      return;
+    }
+
+    //处理参数是字符串的情况
+    if (typeof selector === "string") {
+      //如果是标签
+      if (selector[0] === "<"
+          && selector[selector.length - 1] === ">"
+          && selector.length >= 3) {
+        var tempDiv = document.createElement("div");
+        tempDiv.innerHTML = selector;
+        Array.prototype.push.apply(this, tempDiv.children);
+      } else {
+        var tempResult = document.querySelectorAll(selector);
+        Array.prototype.push.apply(this, tempResult);
+      }
+    }
+
+  }
+
+
+</script>
+</body>
+</html>
