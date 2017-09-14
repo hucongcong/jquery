@@ -41,10 +41,10 @@
     slice: function (start, end) {
       //对jQuery对象进行截取，返回jQuery对象
       var tempArr = slice.call(this, start, end);
-      return $(tempArr);
+      return this.pushStack(tempArr);
     },
     eq: function (index) {
-      return $(this.get(index))
+      return this.pushStack(this.get(index));
     },
     first: function () {
       return this.eq(0);
@@ -69,7 +69,16 @@
       return this;
     },
     map: function (callback) {
-      return jQuery(jQuery.map(this, callback));
+      return this.pushStack(jQuery.map(this, callback));
+    },
+    pushStack: function (eles) {
+      //创建一个新的实例
+      var newObj = jQuery(eles);
+      newObj.prevObject = this;
+      return newObj;
+    },
+    end: function () {
+      return this.prevObject || jQuery();
     }
   };
 
