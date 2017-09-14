@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<script src="../jquery-cc.js"></script>
+<script>
+
+  $(function () {
+
+    var result = $("li").toArray();
+
+    $.each(result, function (i, e) {
+      console.log(this, i, e);
+    });
+
+    $("li").each(function (i, e) {
+      console.log(this, i, e);
+    });
+
+    var obj = {
+      name: "zs",
+      age: 18
+    };
+
+    $.each(obj, function (i, e) {
+      console.log(this);
+    });
+
+    console.log($.map($("li"), function (i) {
+      if (i % 2 == 0) {
+        return this;
+      }
+    }));
+
+    console.log($("li").map(function (i) {
+      if (i % 2 == 0) {
+        return this;
+      }
+    }));
+
+  });
+
+</script>
+
+<ul>
+  <li>我是第1个li</li>
+  <li>我是第2个li</li>
+  <li>我是第3个li</li>
+  <li>我是第4个li</li>
+  <li>我是第5个li</li>
+  <li>我是第6个li</li>
+  <li>我是第7个li</li>
+  <li>我是第8个li</li>
+  <li>我是第9个li</li>
+  <li>我是第10个li</li>
+</ul>
+
+
+</body>
+</html>

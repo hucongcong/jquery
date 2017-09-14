@@ -63,6 +63,13 @@
         document.addEventListener("DOMContentLoaded", fn);
       }
       return this;
+    },
+    each: function (callback) {
+      jQuery.each(this, callback);
+      return this;
+    },
+    map: function (callback) {
+      return jQuery(jQuery.map(this, callback));
     }
   };
 
@@ -135,6 +142,47 @@
       return true;
     }
     return false;
+  };
+  jQuery.each = function (obj, callback) {
+
+    if ("length" in obj) {
+      for (var i = 0; i < obj.length; i++) {
+        var result = callback.call(obj[i], i, obj[i]);
+        if (result === false) {
+          break;
+        }
+      }
+    } else {
+      for (var i in obj) {
+        var result = callback.call(obj[i], i, obj[i]);
+        if (result === false) {
+          break;
+        }
+      }
+    }
+
+    return obj;
+
+  };
+  jQuery.map = function (obj, callback) {
+    var arr = [];
+    if ("length" in obj) {
+      for (var i = 0; i < obj.length; i++) {
+        var result = callback.call(obj[i], i, obj[i]);
+        if (result != null) {
+          arr.push(obj[i]);
+        }
+      }
+    } else {
+      for (var i in obj) {
+        var result = callback.call(obj[i], i, obj[i]);
+        if (result != null) {
+          arr.push(obj[i]);
+        }
+      }
+    }
+
+    return arr;
   };
   //构造函数的原型与工厂函数的原型一致。
   init.prototype = jQuery.fn;
