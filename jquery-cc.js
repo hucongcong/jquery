@@ -104,7 +104,6 @@
     }
 
   };
-
   //给jQuery添加的静态方法，判断对象是否是一个类数组
   jQuery.extend({
     isArrayLike: function (obj) {
@@ -172,6 +171,88 @@
       }
 
       return arr;
+    },
+    type: function (obj) {
+      //获取对象的类型
+      //如果是null，直接返回null， 如果是undefined，返回undefined
+      if (obj == null) {
+        return obj + "";
+      }
+
+      var temp = Object.prototype.toString.call(obj);
+      temp = temp.split(" ")[1].slice(0, -1);
+      return typeof obj === "object" ?
+      temp || "object" :
+        typeof obj;
+    }
+  });
+
+  //样式与属性操作相关
+  jQuery.fn.extend({
+    attr: function () {
+      var arg = arguments;
+      var argLength = arg.length;
+      if (argLength == 1) {
+
+        if ($.type(arg[0]) === "string") {
+          //获取
+          return this.get(0).getAttribute(arg[0]);
+        }
+
+        if ($.type(arg[0]) === "Object") {
+          //设置
+          this.each(function () {
+            //遍历对象
+            for (var k in arg[0]) {
+              this.setAttribute(k, arg[0][k]);
+            }
+          })
+        }
+
+      }
+      if (argLength == 2) {
+        //设置
+        var name = arg[0];
+        var value = arg[1];
+        this.each(function () {
+          this.setAttribute(name, value);
+        })
+      }
+
+      return this;
+
+    },
+    prop: function () {
+      var arg = arguments;
+      var argLength = arg.length;
+      if (argLength == 1) {
+
+        if ($.type(arg[0]) === "string") {
+          //获取
+          return this.get(0)[arg[0]];
+        }
+
+        if ($.type(arg[0]) === "Object") {
+          //设置
+          this.each(function () {
+            //遍历对象
+            for (var k in arg[0]) {
+              this[k] = arg[0][k];
+            }
+          })
+        }
+
+      }
+      if (argLength == 2) {
+        //设置
+        var name = arg[0];
+        var value = arg[1];
+        this.each(function () {
+          this[name] = value;
+        })
+      }
+
+      return this;
     }
   });
 

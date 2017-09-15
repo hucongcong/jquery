@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+
+<input type="button" value="选中">
+<input type="button" value="不选中">
+<input type="checkbox">
+<input type="checkbox">
+<input type="checkbox">
+<input type="checkbox">
+
+<script src="../jquery-cc.js"></script>
+<script>
+
+  $(function () {
+
+
+    //console.log($("div").attr("class name", "cc").attr("name"));
+
+//  $("div").attr({
+//    age:18,
+//    gender:"男",
+//    title:"小明"
+//  })
+
+
+    $("input").get(0).onclick = function () {
+      $("input[type='checkbox']").attr("checked", "abc");
+    };
+
+
+    $("input").get(1).onclick = function () {
+      $("input[type='checkbox']").attr("checked", 0);
+    }
+
+
+  })
+
+</script>
+</body>
+</html>

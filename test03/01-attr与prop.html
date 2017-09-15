@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div id="box" class="demo" aa="bb" title="hehe"></div>
+<script>
+
+  //属性节点：
+  //对于一个DOM元素（标签）来说，
+  //1. 所有写在标签中的属性，都是属性节点，这些属性节点保存一个attributes属性中。
+  //2. 属性节点也有节点的特征，比如nodeType,nodeValue,nodeName等。
+  //3. 使用attr方法操作，获取和设置的是属性节点和属性节点的值。
+  var box = document.getElementById("box");
+  console.log(box.attributes);
+
+  //属性：
+  //对于一个DOM元素来说，也可以看作是一个对象
+  //1. 所有能够通过.获取[]操作的都叫属性，跟普通对象一样。我们称之为对象的属性。
+  //2. 这些属性不会存在于attributes中，而是直接添加到了DOM对象本身。
+  //3. 这些属性没有共同特征，只是一个值。
+
+</script>
+
+</body>
+</html>
