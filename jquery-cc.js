@@ -82,6 +82,100 @@
     }
   };
 
+  //jQuery对象的扩展方法
+  jQuery.extend = jQuery.fn.extend = function () {
+    var arg = arguments;
+    var length = arg.length;
+    var target = arg[0];
+    var i = 1;
+    //如果只传了一个参数，将对象添加到this身上即可。
+    if (length === 1) {
+      target = this;
+      i = 0;
+    }
+
+    //从i开始，把所有的对象的值都添加到第一个参数中
+    for (; i < length; i++) {
+      for (var k in arg[i]) {
+        if (arg[i].hasOwnProperty(k)) {
+          target[k] = arg[i][k];
+        }
+      }
+    }
+
+  };
+
+  //给jQuery添加的静态方法，判断对象是否是一个类数组
+  jQuery.extend({
+    isArrayLike: function (obj) {
+      //如果obj是假值，或者obj没有length属性，length为false,否则length为obj.length
+      var length = !!obj && "length" in obj && obj.length;
+      //如果obj是函数类型 或者window类型，直接返回false
+      //因为函数和window都是object类型，并且他们都有length属性。
+      if (typeof obj === "function" || obj === window) {
+        return false;
+      }
+
+      //如果是数组，返回true
+      if (obj instanceof Array) {
+        return true;
+      }
+
+      //如果有长度，且长度为0，返回true
+      if (length === 0) {
+        return true;
+      }
+
+      //如果有长度，且长度>0,那么 length-1对应的下标必须存在。
+      if (typeof length === "number" && length >= 0 && (length - 1) in obj) {
+        return true;
+      }
+      return false;
+    },
+    each: function (obj, callback) {
+
+      if ("length" in obj) {
+        for (var i = 0; i < obj.length; i++) {
+          var result = callback.call(obj[i], i, obj[i]);
+          if (result === false) {
+            break;
+          }
+        }
+      } else {
+        for (var i in obj) {
+          var result = callback.call(obj[i], i, obj[i]);
+          if (result === false) {
+            break;
+          }
+        }
+      }
+
+      return obj;
+
+    },
+    map: function (obj, callback) {
+      var arr = [];
+      if ("length" in obj) {
+        for (var i = 0; i < obj.length; i++) {
+          var result = callback.call(obj[i], i, obj[i]);
+          if (result != null) {
+            arr.push(obj[i]);
+          }
+        }
+      } else {
+        for (var i in obj) {
+          var result = callback.call(obj[i], i, obj[i]);
+          if (result != null) {
+            arr.push(obj[i]);
+          }
+        }
+      }
+
+      return arr;
+    }
+  });
+
+
   //jquery内部隐藏的构造函数（入口函数）
   var init = jQuery.fn.init = function (selector) {
 
@@ -126,75 +220,9 @@
 
   };
 
-  //给jQuery添加的静态方法，判断对象是否是一个类数组
-  jQuery.isArrayLike = function (obj) {
-    //如果obj是假值，或者obj没有length属性，length为false,否则length为obj.length
-    var length = !!obj && "length" in obj && obj.length;
-    //如果obj是函数类型 或者window类型，直接返回false
-    //因为函数和window都是object类型，并且他们都有length属性。
-    if (typeof obj === "function" || obj === window) {
-      return false;
-    }
-
-    //如果是数组，返回true
-    if (obj instanceof Array) {
-      return true;
-    }
-
-    //如果有长度，且长度为0，返回true
-    if (length === 0) {
-      return true;
-    }
-
-    //如果有长度，且长度>0,那么 length-1对应的下标必须存在。
-    if (typeof length === "number" && length >= 0 && (length - 1) in obj) {
-      return true;
-    }
-    return false;
-  };
-  jQuery.each = function (obj, callback) {
-
-    if ("length" in obj) {
-      for (var i = 0; i < obj.length; i++) {
-        var result = callback.call(obj[i], i, obj[i]);
-        if (result === false) {
-          break;
-        }
-      }
-    } else {
-      for (var i in obj) {
-        var result = callback.call(obj[i], i, obj[i]);
-        if (result === false) {
-          break;
-        }
-      }
-    }
-
-    return obj;
-
-  };
-  jQuery.map = function (obj, callback) {
-    var arr = [];
-    if ("length" in obj) {
-      for (var i = 0; i < obj.length; i++) {
-        var result = callback.call(obj[i], i, obj[i]);
-        if (result != null) {
-          arr.push(obj[i]);
-        }
-      }
-    } else {
-      for (var i in obj) {
-        var result = callback.call(obj[i], i, obj[i]);
-        if (result != null) {
-          arr.push(obj[i]);
-        }
-      }
-    }
-
-    return arr;
-  };
   //构造函数的原型与工厂函数的原型一致。
   init.prototype = jQuery.fn;
+
 
   //对外暴露了两个变量。
   window.$ = window.jQuery = jQuery;
