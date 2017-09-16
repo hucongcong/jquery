@@ -189,7 +189,8 @@
 
   //样式与属性操作相关
   jQuery.fn.extend({
-    attr: function () {
+    //操作标签的属性节点
+    attr: function (name, value) {
       var arg = arguments;
       var argLength = arg.length;
       if (argLength == 1) {
@@ -222,7 +223,8 @@
       return this;
 
     },
-    prop: function () {
+    //操作对象的属性
+    prop: function (name, value) {
       var arg = arguments;
       var argLength = arg.length;
       if (argLength == 1) {
@@ -253,6 +255,19 @@
       }
 
       return this;
+    },
+    //操作value属性
+    val: function (val) {
+      var arg = arguments;
+      //不传参数是获取
+      if (arg.length === 0) {
+        return this.prop("value");
+      }
+
+      //传一个参数是设置
+      if (arg.length === 1) {
+        return this.prop("value", val);
+      }
     }
   });
 
