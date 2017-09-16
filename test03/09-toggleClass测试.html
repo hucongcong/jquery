@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<input type="button" value="按钮" id="btn">
+<ul>
+  <li class="   bbcc   ">111</li>
+  <li class="  aa bb cc">222</li>
+  <li class="  bb">333</li>
+  <li class="  aa bb cc dd">444</li>
+</ul>
+
+<script src="../jquery-3.2.1.js"></script>
+<script src="../jquery-cc.js"></script>
+<script>
+
+  var btn = document.getElementById("btn");
+
+  btn.onclick = function () {
+    $("li").toggleClass("aa   bb  cc")
+  }
+
+
+</script>
+
+</body>
+</html>

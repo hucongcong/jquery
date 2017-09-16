@@ -303,6 +303,74 @@
         })
       }
       return this;
+    },
+    //判断class
+    hasClass: function (name) {
+      //思路：只要有其中一个对象有对应的class，就返回true
+      name = " " + name.trim() + " ";
+      //假设不存在
+      var flag = false;
+
+      this.each(function () {
+
+        //给className前后都拼接上空格
+        var className = " " + this.className + " ";
+
+        if (className.indexOf(name) > -1) {
+          //只要找到了，就返回true
+          flag = true;
+
+          //如果是true，直接退出
+          return false;
+        }
+      });
+      return flag;
+    },
+    //添加class
+    addClass: function (name) {
+      var names = name.split(" ");
+      this.each(function () {
+        var tempStr = this.className;
+        for (var i = 0; i < names.length; i++) {
+          //如果没有，就添加
+          if (!$(this).hasClass(names[i])) {
+            tempStr += " " + names[i];
+          }
+        }
+        this.className = tempStr.trim();
+      });
+      return this;
+    },
+    //移除class
+    removeClass: function (name) {
+      var names = name.split(" ");
+      this.each(function () {
+        for (var i = 0; i < names.length; i++) {
+          //如果没有，就添加
+          if ($(this).hasClass(names[i])) {
+            this.className = " " + this.className + " ";
+            this.className = this.className.replace(" " + names[i] + " ", " ").trim();
+          }
+        }
+      });
+      return this;
+
+    },
+    //切换类
+    toggleClass: function (name) {
+      var names = name.split(" ");
+      this.each(function () {
+        for (var i = 0; i < names.length; i++) {
+          //如果没有，就添加
+          if ($(this).hasClass(names[i])) {
+            $(this).removeClass(names[i]);
+          } else {
+            $(this).addClass(names[i]);
+          }
+        }
+
+      });
+      return this;
     }
   });
 
