@@ -184,6 +184,14 @@
       return typeof obj === "object" ?
       temp || "object" :
         typeof obj;
+    },
+    getStyle: function (ele, styleName) {
+      //获取元素计算后的样式
+      if ("getComputedStyle" in window) {
+        return window.getComputedStyle(ele, null)[styleName];
+      } else {
+        return ele.currentStyle[styleName];
+      }
     }
   });
 
@@ -268,6 +276,33 @@
       if (arg.length === 1) {
         return this.prop("value", val);
       }
+    },
+    //操作style属性
+    css: function (name, value) {
+      var arg = arguments, length = arg.length;
+      if (length === 1) {
+
+        //获取
+        if (jQuery.type(name) === "string") {
+          return $.getStyle(this.get(0), name);
+        }
+
+        //设置
+        if (jQuery.type(name) === "Object") {
+          this.each(function () {
+            for (var k in name) {
+              this.style[k] = name[k];
+            }
+          });
+        }
+      }
+      //两个参数，表示设置
+      if (length == 2) {
+        this.each(function () {
+          this.style[name] = value;
+        })
+      }
+      return this;
     }
   });
 
