@@ -195,7 +195,7 @@
     }
   });
 
-  //样式与属性操作相关
+  //样式与属性模块
   jQuery.fn.extend({
     //操作标签的属性节点
     attr: function (name, value) {
@@ -370,6 +370,63 @@
         }
 
       });
+      return this;
+    }
+  });
+  //节点操作模块
+  jQuery.fn.extend({
+    /*
+     操作标签内容（innerHTML）
+     1. 如果不传参数，获取第一个元素对应的内容
+     2. 如果传参数表示设置，设置所有的元素
+     2.1 如果参数是null，清空原来的内容
+     2.2 如果参数是字符串，清空原来的内容并覆盖
+     */
+    html: function (val) {
+      //获取
+      if (arguments.length === 0) {
+        return this.get(0).innerHTML;
+      }
+      //设置
+      if (arguments.length === 1) {
+        if (val === null) {
+          val = "";
+        }
+        if (typeof val === "string") {
+          this.each(function () {
+            this.innerHTML = val;
+          });
+        }
+      }
+      return this;
+    },
+    /*
+     操作标签内容（innerText）
+     1. 如果不传参数，将所有元素的文本拼接成一个字符串
+     2. 如果传参数表示设置，设置所有的元素
+     2.1 如果参数是null，清空原来的内容
+     2.2 如果参数是字符串，清空原来的内容并覆盖
+     */
+    text: function (val) {
+      //获取
+      if (arguments.length === 0) {
+        var tempStr = "";
+        this.each(function () {
+          tempStr += this.innerText + "\n";
+        });
+        return tempStr;
+      }
+      //设置
+      if (arguments.length === 1) {
+        if (val === null) {
+          val = "";
+        }
+        if (typeof val === "string") {
+          this.each(function () {
+            this.innerText = val;
+          });
+        }
+      }
       return this;
     }
   });
