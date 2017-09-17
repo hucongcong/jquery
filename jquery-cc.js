@@ -428,6 +428,25 @@
         }
       }
       return this;
+    },
+
+    /**
+     * 清空当前元素的所有内容
+     * @returns {jQuery}
+     */
+    empty: function () {
+      this.html(null);
+      return this;
+    },
+    /**
+     * 自杀
+     * @returns {jQuery}
+     */
+    remove: function () {
+      this.each(function () {
+        this.parentNode.removeChild(this);
+      });
+      return this;
     }
   });
 
