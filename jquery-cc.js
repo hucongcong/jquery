@@ -375,12 +375,14 @@
   });
   //节点操作模块
   jQuery.fn.extend({
-    /*
-     操作标签内容（innerHTML）
+    /**
+     * 操作标签内容（innerHTML）
      1. 如果不传参数，获取第一个元素对应的内容
      2. 如果传参数表示设置，设置所有的元素
      2.1 如果参数是null，清空原来的内容
      2.2 如果参数是字符串，清空原来的内容并覆盖
+     * @param val
+     * @returns {*}
      */
     html: function (val) {
       //获取
@@ -446,6 +448,55 @@
       this.each(function () {
         this.parentNode.removeChild(this);
       });
+      return this;
+    },
+
+    /**
+     * 将当前jQuery对象添加到指定元素的最后面
+     * @param selector 选择器、DOM对象、Jquery对象
+     * @returns {jQuery}
+     */
+    appendTo: function (selector) {
+      //无论传什么参数，都转换成jq对象
+      var target = $(selector);
+      var that = this;//将this存储到that中，方便使用
+
+      //使用数组将所有对象储存起来
+      var tempArr = [];
+      //需要将that添加到每一个target DOM元素中
+      target.each(function (i) {
+
+        var _target = this;
+        that.each(function () {
+          //将遍历出来的DOM对象添加到目标对象中,如果第二次以上添加，需要克隆当前对象
+          var temp = i === 0 ? this : this.cloneNode(true);
+          _target.appendChild(temp);
+          tempArr.push(temp)
+        })
+      });
+
+      return this.pushStack(tempArr);
+    },
+
+    /**
+     * 给自己添加子元素
+     * @param value jq对象 dom对象 内容（会创建）
+     * @returns {jQuery} 当前对象，
+     */
+    append: function (value) {
+      /*
+       实现思路：
+       1. 如果参数类型是字符串，直接使用innerHTML进行追加即可
+       2. 如果参数是DOM对象，或者JQ对象，统一使用jQuery方法进行包装
+       3. 借助append方法进行实现
+       */
+      if (typeof value === "string") {
+        this.each(function () {
+          this.innerHTML += value;
+        });
+      } else {
+        jQuery(value).appendTo(this);
+      }
       return this;
     }
   });
