@@ -498,6 +498,43 @@
         jQuery(value).appendTo(this);
       }
       return this;
+    },
+    /**
+     * 添加到最前面
+     * @param selector
+     * @returns {*}
+     */
+    prependTo: function (selector) {
+      //无论传什么参数，都转换成jq对象
+      var target = $(selector);
+      var that = this;//将this存储到that中，方便使用
+
+      //使用数组将所有对象储存起来
+      var tempArr = [];
+      //需要将that添加到每一个target DOM元素中
+      target.each(function (i) {
+        var _target = this;
+        //为了保证顺序，需要逆向遍历
+        for (var j = that.length - 1; j >= 0; j--) {
+          //将遍历出来的DOM对象添加到目标对象中,如果第二次以上添加，需要克隆当前对象
+          var temp = i === 0 ? that[j] : that[j].cloneNode(true);
+          _target.insertBefore(temp, _target.firstChild);
+          tempArr.push(temp)
+        }
+
+      });
+
+      return this.pushStack(tempArr);
+    },
+    prepend: function (value) {
+      if (typeof value === "string") {
+        this.each(function () {
+          this.innerHTML = vlaue + this.innerHTML;
+        });
+      } else {
+        jQuery(value).prependTo(this);
+      }
+      return this;
     }
   });
 
