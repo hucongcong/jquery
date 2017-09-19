@@ -535,6 +535,26 @@
         jQuery(value).prependTo(this);
       }
       return this;
+    },
+
+    //获取所有的子元素
+    children: function () {
+      //实现思路：把所有DOM对象的孩子获取到，存储到一个数组返回即可。
+      var tempArr = [];
+      this.each(function () {
+        push.apply(tempArr, this.children);
+      });
+      return this.pushStack(tempArr);
+    },
+    //获取所有DOM对象的下一个兄弟节点
+    next: function () {
+
+      var tempArr = [];
+      this.each(function () {
+        push.call(tempArr, this.nextElementSibling);
+      });
+      return this.pushStack(tempArr);
+
     }
   });
 
